@@ -78,7 +78,7 @@
     if ([self _hasListeners:@"close"]){
         [self fireEvent:@"close" withObject:@{
             @"success": NUMINT(YES),
-            @"url": [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+            @"url": [_url stringByRemovingPercentEncoding]
         }];
     }
 }
@@ -91,7 +91,7 @@
 -(SFSafariViewController*)sfController:(NSString*)url withEntersReaderIfAvailable:(BOOL)entersReaderIfAvailable
 {
     if(_sfController == nil){
-        _sfController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] entersReaderIfAvailable:entersReaderIfAvailable];
+        _sfController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[url stringByRemovingPercentEncoding]] entersReaderIfAvailable:entersReaderIfAvailable];
         [_sfController setDelegate:self];
     }
     
