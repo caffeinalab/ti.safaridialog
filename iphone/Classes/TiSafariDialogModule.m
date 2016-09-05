@@ -91,7 +91,24 @@
 -(SFSafariViewController*)sfController:(NSString*)url withEntersReaderIfAvailable:(BOOL)entersReaderIfAvailable
 {
     if(_sfController == nil){
-        _sfController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] entersReaderIfAvailable:entersReaderIfAvailable];
+        
+        NSURL *nsurl = [NSURL URLWithString: url];
+        NSString *newUrl = nil;
+        
+        if(nsurl == nil)
+        {
+            nsurl = [NSURL URLWithString: [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        }
+        
+        if(nsurl == nil)
+        {
+            nsurl = [NSURL URLWithString: [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        }
+        
+        NSRange index = [url rangeOfString: @"%"];
+        
+        
+        _sfController = [[SFSafariViewController alloc] initWithURL:nsurl entersReaderIfAvailable:entersReaderIfAvailable];
         [_sfController setDelegate:self];
     }
     
